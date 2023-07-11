@@ -1,5 +1,13 @@
-# Transformer
-DSA5204 Project: Empirical investigation of gradient explosion problem in encoder-decoder neural nets. 
+# DSA5204 Project: Empirical investigation of gradient explosion problem in encoder-decoder neural nets. 
+## Introduction
+Simple RNNs, GRUs, LSTMs, each endowed with attention layers, are compared against attention only neural nets (the Transformer). Weights of each neural net are tracked and compared over 100 epochs for signs of gradient explosion. All neural nets are trained on the same sequence to sequence problem; Ted Open Translation Project, Portuguese-to-English dataset.
 
-Simple RNNs, GRUs, LSTMs, each endowed with attention layers, are compared against attention only neural nets (the Transformer). Weights of each neural net are tracked and compared over 100 epochs for signs of gradient explosion. 
-All neural nets are trained on the same sequence to sequence problem; Ted Open Translation Project, Portuguese-to-English dataset.
+## Gradient explosion problem
+Encoder-decoder models using recurrent neural nets (RNNs), long short-term memory (LSTMs), and gated recurrent neural nets (GRUs) are widely used in sequence-to-sequence modelling. However, long range dependencies in the RNNs can lead to the problem of gradient explosion/vanishing. For gradient explosions, large changes in the model weights create an unstable network which at extreme values, the weights become so large that it causes overflow, resulting in NaN weight values which can no longer be updated. For gradient vanishing, accumulation of small gradients results in a model that is incapable of learning meaningful insights since the weights and the biases of the initial layers are not updated effectively. In the worst case scenario, the gradient will be 0, which in turn will stop the network from further training completely. As a consequence, performance of encoder-decoder RNNs used for language translation tasks tend to degrade as the length of the input sentence increases.
+
+In the paper “Neural Machine Translation by Jointly Learning to Align and Translate”, the attention model was first introduced as an additional layer in RNNs. Consequently, the model may still suffer from gradient explosion/vanishing problems. To resolve the limitations of gradient vanishing/explosion, the Transformer architecture uses only attention models, without the use of RNNs. Specifically, the Transformer architecture uses the
+attention model along with layer normalization and residual connections. The paper shows empirically that despite being a non-recurrent neural net, the Transformer trains and performs better than previously published RNNs at language translation tasks.
+
+## Implementation
+We compare the extent of the gradient explosion/vanishing problem between recurrent neural nets and non-recurrent neural nets, and provide empirical evidence that the Transformer suffers less from gradient explosion/vanishing compared to recurrent neural net architectures. The weights of RNNs/LSTMs/GRUs with attention layer, and the Transformer will be compared empirically during training. Gradient vanishing can be detected if the maximum/minimum weights are remaining relatively invariant at every epoch, while gradient explosion can be detected if the weights are changing very drastically across the epochs. Based on this methodology, our results suggest that the Transformer does not suffer from the gradient explosion/vanishing problem.
+
